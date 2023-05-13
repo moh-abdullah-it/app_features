@@ -8,10 +8,10 @@ class LoadingWidget extends StatelessWidget {
     return const Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-         Padding(
-           padding: EdgeInsets.all(16.0),
-           child: CircularProgressIndicator(),
-         ),
+        Padding(
+          padding: EdgeInsets.all(16.0),
+          child: CircularProgressIndicator(),
+        ),
       ],
     );
   }

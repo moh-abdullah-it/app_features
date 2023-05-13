@@ -5,10 +5,7 @@ import 'package:flutter/material.dart';
 
 void main() {
   AppFeatures.config(
-    features: [
-        SplashFeature(),
-        HomeFeature()
-      ],
+    features: [SplashFeature(), HomeFeature()],
   ).init();
   runApp(const MyApp());
 }

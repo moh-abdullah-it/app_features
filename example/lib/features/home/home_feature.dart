@@ -4,11 +4,9 @@ import 'package:example/features/home/pages/test_dialog_page.dart';
 
 import 'home_page.dart';
 
-class HomeFeature extends Feature{
+class HomeFeature extends Feature {
   @override
-  void get dependencies => () => {
-
-  };
+  void get dependencies => () => {};
 
   @override
   String get name => '/home';
@@ -19,27 +17,22 @@ class HomeFeature extends Feature{
 
   @override
   List<GoRoute> get routes => [
-    GoRoute(
-        path: name,
-        name: name,
-        builder: (_, __) => const HomePage(),),
-    GoRoute(
-        path: dialog,
-        name: dialog,
-        pageBuilder: (context, state) => DialogPage(
-            page: const TestDialogPage(),
-          key: state.pageKey
-        )
-    ),
-    GoRoute(
-        path: bottomSheet,
-        name: bottomSheet,
-        pageBuilder: (context, state) => BottomSheetPage(
-            page: const TestBottomSheetPage(),
-          key: state.pageKey
-        )
-    ),
-  ];
-   void openDialog() => push(name: dialog);
-   void openBottomSheet() => push(name: bottomSheet);
+        GoRoute(
+          path: name,
+          name: name,
+          builder: (_, __) => const HomePage(),
+        ),
+        GoRoute(
+            path: dialog,
+            name: dialog,
+            pageBuilder: (context, state) =>
+                DialogPage(page: const TestDialogPage(), key: state.pageKey)),
+        GoRoute(
+            path: bottomSheet,
+            name: bottomSheet,
+            pageBuilder: (context, state) => BottomSheetPage(
+                page: const TestBottomSheetPage(), key: state.pageKey)),
+      ];
+  void openDialog() => push(name: dialog);
+  void openBottomSheet() => push(name: bottomSheet);
 }

@@ -8,46 +8,46 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Title Home'),
-      ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          TextButton(
-            onPressed: () => AppFeatures.pop(),
-            child: const Text('back'),
-          ),
-          TextButton(
-            onPressed: () => AppFeatures.get<HomeFeature>().openDialog(),
-            child: const Text('dialog'),
-          ),
-          TextButton(
-            onPressed: () => AppFeatures.get<HomeFeature>().openBottomSheet(),
-            child: const Text('bottomSheet'),
-          ),
-          TextButton(
-            onPressed: () => {
-              AppFeatures.showLoading(),
-              Future.delayed(const Duration(seconds: 5), () => AppFeatures.hideLoading())
-            },
-            child: const Text('showLoading'),
-          ),
-          TextButton(
-            onPressed: () => AppFeatures.showSuccessMessage('Test Message'),
-            child: const Text('showSuccessMessage'),
-          ),
-          TextButton(
-            onPressed: () => AppFeatures.showErrorMessage('Test Message'),
-            child: const Text('showErrorMessage'),
-          ),
-          TextButton(
-            onPressed: () => AppFeatures.showToast('Test Message'),
-            child: const Text('showToast'),
-          ),
-        ],
-      )
-    );
+        appBar: AppBar(
+          title: const Text('Title Home'),
+        ),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            TextButton(
+              onPressed: () => AppFeatures.pop(),
+              child: const Text('back'),
+            ),
+            TextButton(
+              onPressed: () => AppFeatures.get<HomeFeature>().openDialog(),
+              child: const Text('dialog'),
+            ),
+            TextButton(
+              onPressed: () => AppFeatures.get<HomeFeature>().openBottomSheet(),
+              child: const Text('bottomSheet'),
+            ),
+            TextButton(
+              onPressed: () => {
+                AppFeatures.showLoading(),
+                Future.delayed(
+                    const Duration(seconds: 5), () => AppFeatures.hideLoading())
+              },
+              child: const Text('showLoading'),
+            ),
+            TextButton(
+              onPressed: () => AppFeatures.showSuccessMessage('Test Message'),
+              child: const Text('showSuccessMessage'),
+            ),
+            TextButton(
+              onPressed: () => AppFeatures.showErrorMessage('Test Message'),
+              child: const Text('showErrorMessage'),
+            ),
+            TextButton(
+              onPressed: () => AppFeatures.showToast('Test Message'),
+              child: const Text('showToast'),
+            ),
+          ],
+        ));
   }
 }

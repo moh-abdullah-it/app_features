@@ -6,27 +6,28 @@ import '../app_features.dart';
 
 final Map<String, Feature> _featuresMap = {};
 List<GoRoute> _routes = [];
-GoRouter _router =  GoRouter(routes: _routes);
+GoRouter _router = GoRouter(routes: _routes);
 
 class AppFeatures {
   List<Feature> features = [];
-  AppFeatures.config({
-    required this.features,
-    Widget? loadingWidget,
-    List<GoRoute>? appRoutes}) {
+  AppFeatures.config(
+      {required this.features,
+      Widget? loadingWidget,
+      List<GoRoute>? appRoutes}) {
     register(features);
     _routes.add(loadingRoute(loadingWidget: loadingWidget));
     _routes.addAll(appRoutes ?? []);
   }
 
-   init({Function? init}) async {
+  init({Function? init}) async {
     WidgetsFlutterBinding.ensureInitialized();
-    if(init != null) {
+    if (init != null) {
       await init();
     }
   }
+
   static T get<T extends Object>() {
-   if (_featuresMap.containsKey(T.toString())) {
+    if (_featuresMap.containsKey(T.toString())) {
       return _featuresMap[T.toString()] as T;
     }
     throw Exception("Future ${T.toString()} Not Found");
@@ -34,7 +35,7 @@ class AppFeatures {
 
   static void _register(Feature feature) {
     if (!_featuresMap.containsKey(feature.runtimeType.toString())) {
-    _featuresMap[feature.runtimeType.toString()] = feature;
+      _featuresMap[feature.runtimeType.toString()] = feature;
       feature.dependencies;
       registerRoutes(feature);
     }
@@ -57,9 +58,12 @@ class AppFeatures {
 
   static void hideLoading() => pop();
 
-  static void showSuccessMessage(String message) => ScaffoldMessengerUtils.of(router).showSuccessMessage(message);
+  static void showSuccessMessage(String message) =>
+      ScaffoldMessengerUtils.of(router).showSuccessMessage(message);
 
-  static void showErrorMessage(String message) => ScaffoldMessengerUtils.of(router).showErrorMessage(message);
+  static void showErrorMessage(String message) =>
+      ScaffoldMessengerUtils.of(router).showErrorMessage(message);
 
-  static void showToast(String message) => ScaffoldMessengerUtils.of(router).showToast(message);
+  static void showToast(String message) =>
+      ScaffoldMessengerUtils.of(router).showToast(message);
 }

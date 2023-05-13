@@ -7,22 +7,25 @@ abstract class Feature {
 
   void get dependencies => () => {};
 
-  Future<T?> push<T extends Object?>(
-      {String? name,
-        Map<String, String> pathParameters = const <String, String>{},
-        Map<String, dynamic> queryParameters = const <String, dynamic>{},
-        Object? extra,
-      }) => AppFeatures.router.pushNamed(name??this.name,
-      pathParameters: pathParameters,
-      queryParameters: queryParameters,
-      extra: extra);
+  Future<T?> push<T extends Object?>({
+    String? name,
+    Map<String, String> pathParameters = const <String, String>{},
+    Map<String, dynamic> queryParameters = const <String, dynamic>{},
+    Object? extra,
+  }) =>
+      AppFeatures.router.pushNamed(name ?? this.name,
+          pathParameters: pathParameters,
+          queryParameters: queryParameters,
+          extra: extra);
 
-  void replace({String? name,
-        Map<String, String> pathParameters = const <String, String>{},
-        Map<String, dynamic> queryParameters = const <String, dynamic>{},
-        Object? extra,
-      }) => AppFeatures.router.replaceNamed(name??this.name,
-        pathParameters: pathParameters,
-        queryParameters: queryParameters,
-        extra: extra);
+  void replace({
+    String? name,
+    Map<String, String> pathParameters = const <String, String>{},
+    Map<String, dynamic> queryParameters = const <String, dynamic>{},
+    Object? extra,
+  }) =>
+      AppFeatures.router.replaceNamed(name ?? this.name,
+          pathParameters: pathParameters,
+          queryParameters: queryParameters,
+          extra: extra);
 }
