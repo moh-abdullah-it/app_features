@@ -27,6 +27,13 @@ class HomePage extends StatelessWidget {
             onPressed: () => AppFeatures.get<HomeFeature>().openBottomSheet(),
             child: const Text('bottomSheet'),
           ),
+          TextButton(
+            onPressed: () => {
+              AppFeatures.showLoading(),
+              Future.delayed(const Duration(seconds: 5), () => AppFeatures.hideLoading())
+            },
+            child: const Text('showLoading'),
+          ),
         ],
       )
     );

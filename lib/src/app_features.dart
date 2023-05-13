@@ -1,3 +1,4 @@
+import 'package:app_features/src/config/app_routes.dart';
 import 'package:flutter/material.dart';
 
 import '../app_features.dart';
@@ -8,8 +9,13 @@ GoRouter _router =  GoRouter(routes: _routes);
 
 class AppFeatures {
   List<Feature> features = [];
-  AppFeatures.config({required this.features}) {
+  AppFeatures.config({
+    required this.features,
+    Widget? loadingWidget,
+    List<GoRoute>? appRoutes}) {
     register(features);
+    _routes.add(loadingRoute(loadingWidget: loadingWidget));
+    _routes.addAll(appRoutes ?? []);
   }
 
    init({Function? init}) async {
@@ -45,4 +51,8 @@ class AppFeatures {
   static GoRouter get router => _router;
 
   static void pop() => router.pop();
+
+  static void showLoading() => router.push(loadingPath);
+
+  static void hideLoading() => pop();
 }
