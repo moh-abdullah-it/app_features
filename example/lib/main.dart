@@ -4,7 +4,8 @@ import 'package:example/features/splash/splash_feature.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  AppFeatures.config(features: [
+  AppFeatures.config(
+    features: [
         SplashFeature(),
         HomeFeature()
       ],
@@ -19,11 +20,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      title: 'Flutter Demo',
+      title: 'App Features Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-
       routerConfig: AppFeatures.router,
     );
   }
