@@ -34,6 +34,18 @@ class HomePage extends StatelessWidget {
             },
             child: const Text('showLoading'),
           ),
+          TextButton(
+            onPressed: () => AppFeatures.showSuccessMessage('Test Message'),
+            child: const Text('showSuccessMessage'),
+          ),
+          TextButton(
+            onPressed: () => AppFeatures.showErrorMessage('Test Message'),
+            child: const Text('showErrorMessage'),
+          ),
+          TextButton(
+            onPressed: () => AppFeatures.showToast('Test Message'),
+            child: const Text('showToast'),
+          ),
         ],
       )
     );

@@ -1,4 +1,5 @@
 import 'package:app_features/src/config/app_routes.dart';
+import 'package:app_features/src/utils/notifications_utils.dart';
 import 'package:flutter/material.dart';
 
 import '../app_features.dart';
@@ -55,4 +56,10 @@ class AppFeatures {
   static void showLoading() => router.push(loadingPath);
 
   static void hideLoading() => pop();
+
+  static void showSuccessMessage(String message) => NotificationsUtils.showSuccessMessage(message);
+
+  static void showErrorMessage(String message) => NotificationsUtils.showErrorMessage(message);
+
+  static void showToast(String message) => NotificationsUtils.showToast(message);
 }
