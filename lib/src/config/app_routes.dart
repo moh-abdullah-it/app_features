@@ -7,6 +7,8 @@ GoRoute loadingRoute ({Widget? loadingWidget}) => GoRoute(
     name: loadingPath,
     pageBuilder: (context, state) => DialogPage(
         dismissible: false,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
         page: loadingWidget ?? LoadingWidget(key: state.pageKey)
     )
 );
