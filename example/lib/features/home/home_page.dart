@@ -1,4 +1,5 @@
 import 'package:app_features/app_features.dart';
+import 'package:example/features/home/home_feature.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
@@ -10,11 +11,23 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Title Home'),
       ),
-      body: Center(
-        child: TextButton(
-          onPressed: () => AppFeatures.pop(),
-          child: const Text('back'),
-        ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          TextButton(
+            onPressed: () => AppFeatures.pop(),
+            child: const Text('back'),
+          ),
+          TextButton(
+            onPressed: () => AppFeatures.get<HomeFeature>().openDialog(),
+            child: const Text('dialog'),
+          ),
+          TextButton(
+            onPressed: () => AppFeatures.get<HomeFeature>().openBottomSheet(),
+            child: const Text('bottomSheet'),
+          ),
+        ],
       )
     );
   }
