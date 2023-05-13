@@ -1,5 +1,5 @@
 import 'package:app_features/src/config/app_routes.dart';
-import 'package:app_features/src/utils/notifications_utils.dart';
+import 'package:app_features/src/utils/scaffold_messenger_utils.dart';
 import 'package:flutter/material.dart';
 
 import '../app_features.dart';
@@ -57,9 +57,9 @@ class AppFeatures {
 
   static void hideLoading() => pop();
 
-  static void showSuccessMessage(String message) => NotificationsUtils.showSuccessMessage(message);
+  static void showSuccessMessage(String message) => ScaffoldMessengerUtils.of(router).showSuccessMessage(message);
 
-  static void showErrorMessage(String message) => NotificationsUtils.showErrorMessage(message);
+  static void showErrorMessage(String message) => ScaffoldMessengerUtils.of(router).showErrorMessage(message);
 
-  static void showToast(String message) => NotificationsUtils.showToast(message);
+  static void showToast(String message) => ScaffoldMessengerUtils.of(router).showToast(message);
 }

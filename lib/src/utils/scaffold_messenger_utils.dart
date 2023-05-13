@@ -2,11 +2,16 @@ import 'package:flutter/material.dart';
 
 import '../../app_features.dart';
 
-abstract class NotificationsUtils{
-  static void showSnackBar({
+class ScaffoldMessengerUtils{
+  BuildContext? _context;
+  ScaffoldMessengerUtils.of(GoRouter router) {
+    _context = router.routerDelegate.navigatorKey.currentContext;
+  }
+
+   void showSnackBar({
     SnackBar? snackBar,
     Widget? content,
-    Color? backgroundColor}) => ScaffoldMessenger.of(AppFeatures.router.routerDelegate.navigatorKey.currentContext!)
+    Color? backgroundColor}) => ScaffoldMessenger.of(_context!)
       .showSnackBar(snackBar ??
       SnackBar(
           behavior: SnackBarBehavior.floating,
@@ -17,21 +22,21 @@ abstract class NotificationsUtils{
             child: content,
           )));
 
-  static void showSuccessMessage(String message) => showSnackBar(
+   void showSuccessMessage(String message) => showSnackBar(
       content: Text(message,
         style: const TextStyle(
             color: Colors.white),
       ),
       backgroundColor: Colors.green.shade400);
 
-  static void showErrorMessage(String message) => showSnackBar(
+   void showErrorMessage(String message) => showSnackBar(
       content: Text(message,
         style: const TextStyle(
             color: Colors.white),
       ),
       backgroundColor: Colors.red.shade400);
 
-  static void showToast(String message) => showSnackBar(
+   void showToast(String message) => showSnackBar(
       content: Text(message,
         style: const TextStyle(
             color: Colors.black),
