@@ -66,4 +66,7 @@ class AppFeatures {
 
   static void showToast(String message) =>
       ScaffoldMessengerUtils.of(router).showToast(message);
+
+  static void showSnackBar({SnackBar? snackBar, Widget? content, Color? backgroundColor}) =>
+      ScaffoldMessengerUtils.of(router).showSnackBar(snackBar: snackBar, content: content, backgroundColor: backgroundColor);
 }
