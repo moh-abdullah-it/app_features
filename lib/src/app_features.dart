@@ -1,4 +1,5 @@
 import 'package:app_features/src/config/app_routes.dart';
+import 'package:app_features/src/utils/overlay_utils.dart';
 import 'package:app_features/src/utils/scaffold_messenger_utils.dart';
 import 'package:flutter/material.dart';
 
@@ -73,4 +74,10 @@ class AppFeatures {
           snackBar: snackBar,
           content: content,
           backgroundColor: backgroundColor);
+
+  static void showDialog(Widget child) =>
+      OverlayUtils.of(router).showMDialog(child);
+
+  static void showBottomSheet(Widget child) =>
+      OverlayUtils.of(router).showBottomSheet(child);
 }
