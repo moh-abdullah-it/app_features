@@ -6,6 +6,11 @@ class SplashFeature extends Feature {
   String get name => '/';
 
   @override
-  List<GoRoute> get routes =>
-      [GoRoute(path: name, name: name, builder: (_, __) => const SplashPage())];
+  List<GoRoute> get routes => [
+        GoRoute(
+          path: name,
+          name: name,
+          builder: (_, __) => const SplashPage(),
+        )
+      ];
 }

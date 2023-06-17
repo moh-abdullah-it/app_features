@@ -13,8 +13,10 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Future.delayed(const Duration(seconds: 3),
-          () => AppFeatures.get<HomeFeature>().push());
+      Future.delayed(
+        const Duration(seconds: 3),
+        () => AppFeatures.get<HomeFeature>().go(),
+      );
     });
     super.initState();
   }

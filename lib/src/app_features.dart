@@ -6,18 +6,32 @@ import 'package:flutter/material.dart';
 import '../app_features.dart';
 
 final Map<String, Feature> _featuresMap = {};
-List<GoRoute> _routes = [];
-GoRouter _router = GoRouter(routes: _routes);
+List<RouteBase> _routes = [];
+final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>();
+
+GoRouter _router = GoRouter(routes: []);
 
 class AppFeatures {
   List<Feature> features = [];
+  MasterLayout? masterLayout;
+
   AppFeatures.config(
       {required this.features,
+      this.masterLayout,
       Widget? loadingWidget,
-      List<GoRoute>? appRoutes}) {
+      List<GoRoute>? appRoutes,
+      String initLocation = '/'}) {
     register(features);
+    if (masterLayout != null) {
+      _routes.addAll(masterLayout!.getRoutes());
+      register(masterLayout!.features, needRegisterRoutes: false);
+    }
     _routes.add(loadingRoute(loadingWidget: loadingWidget));
     _routes.addAll(appRoutes ?? []);
+    _router = GoRouter(
+        initialLocation: initLocation,
+        routes: _routes,
+        navigatorKey: _rootNavigatorKey);
   }
 
   init({Function? init}) async {
@@ -34,17 +48,21 @@ class AppFeatures {
     throw Exception("Future ${T.toString()} Not Found");
   }
 
-  static void _register(Feature feature) {
+  static void _register(Feature feature, bool needRegisterRoutes) {
     if (!_featuresMap.containsKey(feature.runtimeType.toString())) {
       _featuresMap[feature.runtimeType.toString()] = feature;
       feature.dependencies;
-      registerRoutes(feature);
+      if (needRegisterRoutes) {
+        registerRoutes(feature);
+      }
     }
   }
 
   /// Inject All Your Features
-  static void register(List<Feature> list) {
-    list.forEach(_register);
+  static void register(List<Feature> list, {bool needRegisterRoutes = true}) {
+    for (var f in list) {
+      _register(f, needRegisterRoutes);
+    }
   }
 
   static registerRoutes(Feature feature) {
@@ -80,4 +98,6 @@ class AppFeatures {
 
   static void showBottomSheet(Widget child) =>
       OverlayUtils.of(router).showBottomSheet(child);
+
+  static void refresh = router.refresh();
 }

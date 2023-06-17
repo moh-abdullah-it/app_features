@@ -1,12 +1,15 @@
 import 'package:app_features/app_features.dart';
-import 'package:example/features/home/home_feature.dart';
+import 'package:example/features/app_master_layout.dart';
 import 'package:example/features/splash/splash_feature.dart';
 import 'package:flutter/material.dart';
 
 void main() {
   AppFeatures.config(
-    features: [SplashFeature(), HomeFeature()],
-  ).init();
+    features: [
+      SplashFeature(),
+    ],
+    masterLayout: AppMasterLayout(),
+  );
   runApp(const MyApp());
 }
 
