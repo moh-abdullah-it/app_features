@@ -14,6 +14,15 @@ class AppFeatures {
   List<Feature> features = [];
   MasterLayout? masterLayout;
 
+  /// Config All Features With [AppFeatures]
+  /// AppFeatures.config(
+  /// masterLayout: AppMasterLayout(),
+  /// features: [
+  ///     SplashFeature(),
+  ///     HomeFeature(),
+  /// ],
+  /// initLocation: '/'
+  /// )
   AppFeatures.config(
       {required this.features,
       this.masterLayout,
@@ -31,13 +40,8 @@ class AppFeatures {
         navigatorKey: _rootNavigatorKey);
   }
 
-  init({Function? init}) async {
-    WidgetsFlutterBinding.ensureInitialized();
-    if (init != null) {
-      await init();
-    }
-  }
-
+  /// get feature instance from app feature as singleton
+  /// [AppFeatures].get<[HomeFeature]>()
   static T get<T extends Object>() {
     if (_featuresMap.containsKey(T.toString())) {
       return _featuresMap[T.toString()] as T;
@@ -45,6 +49,9 @@ class AppFeatures {
     throw Exception("Future ${T.toString()} Not Found");
   }
 
+  /// register feature in singleton features
+  /// call dependencies
+  /// register routes
   static void _register(Feature feature, bool needRegisterRoutes) {
     if (!_featuresMap.containsKey(feature.runtimeType.toString())) {
       _featuresMap[feature.runtimeType.toString()] = feature;
@@ -55,25 +62,35 @@ class AppFeatures {
     }
   }
 
-  /// Inject All Your Features
+  /// register All  Features
   static void register(List<Feature> list, {bool needRegisterRoutes = true}) {
     for (var f in list) {
       _register(f, needRegisterRoutes);
     }
   }
 
+  /// register feature routes
   static registerRoutes(Feature feature) {
     _routes.addAll(feature.routes);
   }
 
+  /// go_router instance router config
   static GoRouter get router => _router;
 
+  /// router go back
+  /// AppFeature.pop()
   static void pop() => router.pop();
 
+  /// OverlayUtils incidence
+  /// AppFeatures.overlay
   static OverlayUtils get overlay => OverlayUtils.of(router);
 
+  /// ScaffoldMessengerUtils incidence
+  /// AppFeatures.scaffoldMessenger
   static ScaffoldMessengerUtils get scaffoldMessenger =>
       ScaffoldMessengerUtils.of(router);
 
+  /// router refresh current rote
+  /// AppFeatures.refresh;
   static void refresh = router.refresh();
 }

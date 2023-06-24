@@ -7,6 +7,6 @@ class AppMasterLayout extends MasterLayout {
   List<Feature> get features => [HomeFeature()];
 
   @override
-  BottomNavigationBuildr get bottomNavigationBar =>
+  BottomNavigationBuilder get bottomNavigationBar =>
       (shellRoute) => BottomNav(shellRoute);
 }

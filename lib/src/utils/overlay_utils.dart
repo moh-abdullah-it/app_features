@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../app_features.dart';
 
+/// [OverlayUtils] modify support to use overlay with route [BuildContext]
 class OverlayUtils {
   BuildContext? _context;
 
@@ -10,6 +11,7 @@ class OverlayUtils {
     _context = router.routerDelegate.navigatorKey.currentContext;
   }
 
+  /// open dialog with overlay
   openDialog(
     Widget child, {
     bool isDismissible = true,
@@ -32,6 +34,7 @@ class OverlayUtils {
           anchorPoint: anchorPoint,
           traversalEdgeBehavior: traversalEdgeBehavior);
 
+  /// open ModalBottomSheet with overlay
   openModalBottomSheet(Widget child,
           {Color? backgroundColor,
           double? elevation,
@@ -67,6 +70,7 @@ class OverlayUtils {
           transitionAnimationController: transitionAnimationController,
           anchorPoint: anchorPoint);
 
+  /// open BottomSheet
   openBottomSheet(Widget child,
           {Color? backgroundColor,
           double? elevation,
@@ -87,5 +91,6 @@ class OverlayUtils {
         transitionAnimationController: transitionAnimationController,
       );
 
+  /// show simple loading
   showLoading({Widget? child = const LoadingWidget()}) => openDialog(child!);
 }

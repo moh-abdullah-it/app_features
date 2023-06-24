@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// [DialogPage] to use dialog in routes
 class DialogPage<T> extends Page<T> {
   final Widget? page;
   final Dialog? dialog;

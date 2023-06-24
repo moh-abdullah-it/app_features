@@ -1,3 +1,6 @@
+## 0.2.1
+* Provide documentation public API dartdoc comments
+
 ## 0.2.0
 * improve support `OverlayUtils`
 * modify `AppFeatures.overlay` and `AppFeatures.scaffoldMessenger`

@@ -1,11 +1,13 @@
 import 'package:app_features/app_features.dart';
 import 'package:flutter/material.dart';
 
+// Simple [MasterLayout] page
 class MasterPage extends StatelessWidget {
   /// The navigation shell and container for the branch Navigators.
   final StatefulNavigationShell navigationShell;
 
-  final BottomNavigationBuildr bottomNavigationBar;
+  /// [BottomNavigationBuilder]
+  final BottomNavigationBuilder bottomNavigationBar;
 
   const MasterPage(
       {Key? key,

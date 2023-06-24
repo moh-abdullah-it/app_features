@@ -2,15 +2,17 @@ import 'package:app_features/app_features.dart';
 import 'package:app_features/src/pages/master_page.dart';
 import 'package:flutter/material.dart';
 
-typedef BottomNavigationBuildr = Widget Function(
+/// [BottomNavigationBuilder] to build bottom nav with route shell
+typedef BottomNavigationBuilder = Widget Function(
     StatefulNavigationShell navigationShell);
 
+/// abstract [MasterLayout] implement main layout
 abstract class MasterLayout {
   List<Feature> get features;
 
   StatefulShellRouteBuilder? get masterPageBuilder => null;
 
-  BottomNavigationBuildr get bottomNavigationBar;
+  BottomNavigationBuilder get bottomNavigationBar;
 
   List<RouteBase> getRoutes() => <RouteBase>[
         StatefulShellRoute.indexedStack(

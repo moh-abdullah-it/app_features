@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// [BottomSheetPage] to use [ModalBottomSheetRoute] in routes
 class BottomSheetPage<T> extends Page<T> {
   final Widget? page;
   final BottomSheet? bottomSheet;

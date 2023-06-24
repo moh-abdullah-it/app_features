@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 
 import '../../app_features.dart';
 
+/// [ScaffoldMessengerUtils] to use [ScaffoldMessenger]
 class ScaffoldMessengerUtils {
   BuildContext? _context;
   ScaffoldMessengerUtils.of(GoRouter router) {
     _context = router.routerDelegate.navigatorKey.currentContext;
   }
 
+  /// show snackBar
   void showSnackBar(
           {SnackBar? snackBar, Widget? content, Color? backgroundColor}) =>
       ScaffoldMessenger.of(_context!).showSnackBar(snackBar ??
@@ -20,6 +22,7 @@ class ScaffoldMessengerUtils {
                 child: content,
               )));
 
+  /// show successMessage
   void showSuccessMessage(String message) => showSnackBar(
       content: Text(
         message,
@@ -27,6 +30,7 @@ class ScaffoldMessengerUtils {
       ),
       backgroundColor: Colors.green.shade400);
 
+  /// show errorMessage
   void showErrorMessage(String message) => showSnackBar(
       content: Text(
         message,
@@ -34,6 +38,7 @@ class ScaffoldMessengerUtils {
       ),
       backgroundColor: Colors.red.shade400);
 
+  /// show toast
   void showToast(String message) => showSnackBar(
       content: Text(
         message,
