@@ -29,22 +29,25 @@ class HomePage extends StatelessWidget {
             ),
             TextButton(
               onPressed: () => {
-                AppFeatures.showLoading(),
+                AppFeatures.overlay.showLoading(),
                 Future.delayed(
-                    const Duration(seconds: 5), () => AppFeatures.hideLoading())
+                    const Duration(seconds: 5), () => AppFeatures.pop())
               },
               child: const Text('showLoading'),
             ),
             TextButton(
-              onPressed: () => AppFeatures.showSuccessMessage('Test Message'),
+              onPressed: () => AppFeatures.scaffoldMessenger
+                  .showSuccessMessage('Test Message'),
               child: const Text('showSuccessMessage'),
             ),
             TextButton(
-              onPressed: () => AppFeatures.showErrorMessage('Test Message'),
+              onPressed: () => AppFeatures.scaffoldMessenger
+                  .showErrorMessage('Test Message'),
               child: const Text('showErrorMessage'),
             ),
             TextButton(
-              onPressed: () => AppFeatures.showToast('Test Message'),
+              onPressed: () =>
+                  AppFeatures.scaffoldMessenger.showToast('Test Message'),
               child: const Text('showToast'),
             ),
           ],

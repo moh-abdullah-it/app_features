@@ -1,3 +1,8 @@
+## 0.2.0
+* improve support `OverlayUtils`
+* modify `AppFeatures.overlay` and `AppFeatures.scaffoldMessenger`
+* remove static methods from `AppFeatures` dialog and other messages
+
 ## 0.1.1
 * remove unused code
 

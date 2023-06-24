@@ -1,4 +1,3 @@
-import 'package:app_features/src/config/app_routes.dart';
 import 'package:app_features/src/utils/overlay_utils.dart';
 import 'package:app_features/src/utils/scaffold_messenger_utils.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +17,6 @@ class AppFeatures {
   AppFeatures.config(
       {required this.features,
       this.masterLayout,
-      Widget? loadingWidget,
       List<GoRoute>? appRoutes,
       String initLocation = '/'}) {
     register(features);
@@ -26,7 +24,6 @@ class AppFeatures {
       _routes.addAll(masterLayout!.getRoutes());
       register(masterLayout!.features, needRegisterRoutes: false);
     }
-    _routes.add(loadingRoute(loadingWidget: loadingWidget));
     _routes.addAll(appRoutes ?? []);
     _router = GoRouter(
         initialLocation: initLocation,
@@ -73,31 +70,10 @@ class AppFeatures {
 
   static void pop() => router.pop();
 
-  static void showLoading() => router.push(loadingPath);
+  static OverlayUtils get overlay => OverlayUtils.of(router);
 
-  static void hideLoading() => pop();
-
-  static void showSuccessMessage(String message) =>
-      ScaffoldMessengerUtils.of(router).showSuccessMessage(message);
-
-  static void showErrorMessage(String message) =>
-      ScaffoldMessengerUtils.of(router).showErrorMessage(message);
-
-  static void showToast(String message) =>
-      ScaffoldMessengerUtils.of(router).showToast(message);
-
-  static void showSnackBar(
-          {SnackBar? snackBar, Widget? content, Color? backgroundColor}) =>
-      ScaffoldMessengerUtils.of(router).showSnackBar(
-          snackBar: snackBar,
-          content: content,
-          backgroundColor: backgroundColor);
-
-  static void showDialog(Widget child) =>
-      OverlayUtils.of(router).showMDialog(child);
-
-  static void showBottomSheet(Widget child) =>
-      OverlayUtils.of(router).showBottomSheet(child);
+  static ScaffoldMessengerUtils get scaffoldMessenger =>
+      ScaffoldMessengerUtils.of(router);
 
   static void refresh = router.refresh();
 }
