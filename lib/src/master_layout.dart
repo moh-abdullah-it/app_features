@@ -12,7 +12,7 @@ abstract class MasterLayout {
 
   StatefulShellRouteBuilder? get masterPageBuilder => null;
 
-  BottomNavigationBuilder get bottomNavigationBar;
+  BottomNavigationBuilder? get bottomNavigationBar => null;
 
   List<RouteBase> getRoutes() => <RouteBase>[
         StatefulShellRoute.indexedStack(

@@ -7,7 +7,7 @@ class MasterPage extends StatelessWidget {
   final StatefulNavigationShell navigationShell;
 
   /// [BottomNavigationBuilder]
-  final BottomNavigationBuilder bottomNavigationBar;
+  final BottomNavigationBuilder? bottomNavigationBar;
 
   const MasterPage(
       {Key? key,
@@ -19,7 +19,9 @@ class MasterPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: navigationShell,
-      bottomNavigationBar: bottomNavigationBar(navigationShell),
+      bottomNavigationBar: bottomNavigationBar != null
+          ? bottomNavigationBar!(navigationShell)
+          : null,
     );
   }
 }

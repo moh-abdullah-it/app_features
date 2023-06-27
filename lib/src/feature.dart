@@ -42,6 +42,19 @@ abstract class Feature {
           queryParameters: queryParameters,
           extra: extra);
 
+  /// route pushReplace name
+  /// AppFeature.get<HomeFeature>().replace()
+  void pushReplace({
+    String? name,
+    Map<String, String> pathParameters = const <String, String>{},
+    Map<String, dynamic> queryParameters = const <String, dynamic>{},
+    Object? extra,
+  }) =>
+      AppFeatures.router.pushReplacementNamed(name ?? this.name,
+          pathParameters: pathParameters,
+          queryParameters: queryParameters,
+          extra: extra);
+
   /// route go name
   /// AppFeature.get<HomeFeature>().go()
   void go({
