@@ -2,11 +2,11 @@
  This package help you to Organize folders Structure by feature scope. **package in development**
 
 ## Features
-1. Feature scope routes and dependents
-2. Manage Routes by go_router
-3. Handle dialog and bottom sheet by routes
-4. Handle Snack Bar by ScaffoldMessenger
-5. Overlay Support
+1. Feature scope routes and dependents.
+2. Manage Routes by go_router.
+3. Handle dialog and bottom sheet by routes.
+4. Handle Snack Bar by ScaffoldMessenger.
+5. Overlay Support.
 
 ## Getting started
 
@@ -37,13 +37,14 @@ to create new feature you need to:
 * feature class 
 * feature page as view
 
-lets create login feature example:
-1. create `login_page.dart` file as login view page.
-2. create new class file name `login_feaure.dart`:
+lets create Auth feature example:
+1. create new folder `auth` in `features` folder.
+2. create `login_page.dart` file as login view page.
+3. create new class file name `auth_feaure.dart`:
     ``` dart
     import 'package:app_features/app_features.dart';
     
-    class LoginFeature extends Feature {
+    class AuthFeature extends Feature {
     
         @override
         String get name => '/login';
@@ -54,19 +55,28 @@ lets create login feature example:
               path: name,
               name: name,
               builder: (_, __) => const LoginPage(),
-            )
+            ),
         ]
     }
     ```
-3. Register new feature to `AppFeatures` config:
-``` dart 
-void main() {
-  AppFeatures.config(
-    features: [
-        SplashFeature(),
-        LoginFeatue()
-      ],
-  );
-  runApp(const MyApp());
-}
-```
+4. Register new feature to `AppFeatures` config:
+   ``` dart 
+   void main() {
+     AppFeatures.config(
+       features: [
+           SplashFeature(),
+           AuthFeature()
+         ],
+     );
+     runApp(const MyApp());
+   }
+   ```
+5. Navigate to `AuthFeature`:
+   ``` dart
+   // push to feature
+   AppFeatures.get<AuthFeature>().push();
+    // or go to feature
+   AppFeatures.get<AuthFeature>().go();
+   // or repleace feature
+   AppFeatures.get<AuthFeature>().replace();
+   ```
