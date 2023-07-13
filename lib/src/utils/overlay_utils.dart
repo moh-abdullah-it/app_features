@@ -27,6 +27,7 @@ class OverlayUtils {
           context: _context!,
           builder: (context) => child,
           barrierDismissible: isDismissible,
+          barrierColor: barrierColor,
           barrierLabel: barrierLabel,
           useSafeArea: useSafeArea,
           useRootNavigator: useRootNavigator,
@@ -92,5 +93,14 @@ class OverlayUtils {
       );
 
   /// show simple loading
-  showLoading({Widget? child = const LoadingWidget()}) => openDialog(child!);
+  showLoading({
+    Widget? child = const LoadingWidget(),
+    bool isDismissible = false,
+    Color? barrierColor,
+  }) =>
+      openDialog(
+        child!,
+        isDismissible: isDismissible,
+        barrierColor: barrierColor,
+      );
 }
