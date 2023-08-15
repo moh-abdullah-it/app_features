@@ -67,4 +67,17 @@ abstract class Feature {
           pathParameters: pathParameters,
           queryParameters: queryParameters,
           extra: extra);
+
+  routesWithRootKey(rootNavigatorKey) {
+    return routes.map((e) {
+      return GoRoute(
+          path: e.path,
+          name: e.name,
+          parentNavigatorKey: rootNavigatorKey,
+          builder: e.builder,
+          pageBuilder: e.pageBuilder,
+          redirect: e.redirect,
+          routes: e.routes);
+    }).toList();
+  }
 }

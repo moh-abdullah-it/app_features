@@ -1,5 +1,6 @@
 import 'package:app_features/app_features.dart';
 import 'package:example/features/home/home_feature.dart';
+import 'package:example/features/out/out_feature.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
@@ -16,8 +17,12 @@ class HomePage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             TextButton(
-              onPressed: () => AppFeatures.pop(),
-              child: const Text('back'),
+              onPressed: () => AppFeatures.get<OutFeature>().push(),
+              child: const Text('Out Home'),
+            ),
+            TextButton(
+              onPressed: () => AppFeatures.get<HomeFeature>().openInHome(),
+              child: const Text('In Home'),
             ),
             TextButton(
               onPressed: () => AppFeatures.get<HomeFeature>().openDialog(),

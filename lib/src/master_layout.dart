@@ -14,21 +14,20 @@ abstract class MasterLayout {
 
   BottomNavigationBuilder? get bottomNavigationBar => null;
 
-  List<RouteBase> getRoutes() => <RouteBase>[
-        StatefulShellRoute.indexedStack(
-            builder: masterPageBuilder ??
-                (BuildContext context, GoRouterState state,
-                    StatefulNavigationShell navigationShell) {
-                  return MasterPage(
-                    navigationShell: navigationShell,
-                    bottomNavigationBar: bottomNavigationBar,
-                  );
-                },
-            branches: features
-                .map((Feature f) => StatefulShellBranch(
-                      navigatorKey: f.navigatorKey,
-                      routes: f.routes,
-                    ))
-                .toList()),
-      ];
+  RouteBase getShellRoute() => StatefulShellRoute.indexedStack(
+      builder: masterPageBuilder ??
+          (BuildContext context, GoRouterState state,
+              StatefulNavigationShell navigationShell) {
+            return MasterPage(
+              navigationShell: navigationShell,
+              bottomNavigationBar: bottomNavigationBar,
+            );
+          },
+      branches: features.map((Feature f) {
+        var key = f.navigatorKey;
+        return StatefulShellBranch(
+          navigatorKey: key,
+          routes: f.routesWithRootKey(key),
+        );
+      }).toList());
 }

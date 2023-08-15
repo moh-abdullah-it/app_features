@@ -1,4 +1,5 @@
 import 'package:app_features/app_features.dart';
+import 'package:example/features/home/pages/in_page.dart';
 import 'package:example/features/home/pages/test_bottom_sheet_page.dart';
 import 'package:example/features/home/pages/test_dialog_page.dart';
 
@@ -13,6 +14,8 @@ class HomeFeature extends Feature {
 
   String get dialog => '/home/testDialog';
 
+  String get inHome => '/home/in';
+
   String get bottomSheet => '/home/testBottomSheet';
 
   @override
@@ -21,6 +24,11 @@ class HomeFeature extends Feature {
           path: name,
           name: name,
           builder: (_, __) => const HomePage(),
+        ),
+        GoRoute(
+          path: inHome,
+          name: inHome,
+          builder: (_, __) => const InPage(),
         ),
         GoRoute(
             path: dialog,
@@ -35,4 +43,6 @@ class HomeFeature extends Feature {
       ];
   void openDialog() => push(name: dialog);
   void openBottomSheet() => push(name: bottomSheet);
+
+  void openInHome() => push(name: inHome);
 }

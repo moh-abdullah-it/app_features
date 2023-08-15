@@ -30,7 +30,7 @@ class AppFeatures {
       String initLocation = '/'}) {
     register(features);
     if (masterLayout != null) {
-      _routes.addAll(masterLayout!.getRoutes());
+      _routes.add(masterLayout!.getShellRoute());
       register(masterLayout!.features, needRegisterRoutes: false);
     }
     _routes.addAll(appRoutes ?? []);
@@ -71,7 +71,7 @@ class AppFeatures {
 
   /// register feature routes
   static registerRoutes(Feature feature) {
-    _routes.addAll(feature.routes);
+    _routes.addAll(feature.routesWithRootKey(_rootNavigatorKey));
   }
 
   /// go_router instance router config

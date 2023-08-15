@@ -1,3 +1,11 @@
+## 0.4.0
+* Modify Route Out of Master Layout
+* upgrade dependencies `go_router`
+
+## 0.3.0
+* modify options to `showLoading`
+* modify readme docs
+
 ## 0.2.1
 * Provide documentation public API dartdoc comments
 
