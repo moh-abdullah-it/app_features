@@ -1,3 +1,6 @@
+## 0.5.0
+* fix open page route form other branch
+
 ## 0.4.0
 * Modify Route Out of Master Layout
 * upgrade dependencies `go_router`

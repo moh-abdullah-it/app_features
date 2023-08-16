@@ -24,10 +24,9 @@ abstract class MasterLayout {
             );
           },
       branches: features.map((Feature f) {
-        var key = f.navigatorKey;
         return StatefulShellBranch(
-          navigatorKey: key,
-          routes: f.routesWithRootKey(key),
+          navigatorKey: f.navigatorKey,
+          routes: f.routes,
         );
       }).toList());
 }
