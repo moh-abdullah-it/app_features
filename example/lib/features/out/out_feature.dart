@@ -6,6 +6,15 @@ class OutFeature extends Feature {
   String get name => '/out';
 
   @override
+  onNavigate(
+      {String? name,
+      Map<String, String>? pathParameters,
+      Map<String, dynamic>? queryParameters,
+      Object? extra}) {
+    //print('name $name');
+  }
+
+  @override
   List<GoRoute> get routes =>
       [GoRoute(path: name, name: name, builder: (_, __) => const OutPage())];
 }

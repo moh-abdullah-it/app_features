@@ -1,3 +1,8 @@
+## 0.6.0
+* modify `onNavigate` to listen if routes in feature changed
+* modify `onBranchChange` to listen if branch in master layout changed
+* upgrade `go_router` dependencies
+
 ## 0.5.0
 * fix open page route form other branch
 

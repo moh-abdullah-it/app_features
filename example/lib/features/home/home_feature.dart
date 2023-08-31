@@ -10,6 +10,20 @@ class HomeFeature extends Feature {
   void get dependencies => () => {};
 
   @override
+  onBranchChange({String? name, GoRouterState? state}) {
+    //print('onBranchChange $name');
+  }
+
+  @override
+  onNavigate(
+      {String? name,
+      Map<String, String>? pathParameters,
+      Map<String, dynamic>? queryParameters,
+      Object? extra}) {
+    // print('onNavigate $name');
+  }
+
+  @override
   String get name => '/home';
 
   String get dialog => '/home/testDialog';

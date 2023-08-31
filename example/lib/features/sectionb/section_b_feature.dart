@@ -6,6 +6,11 @@ class SectionBFeature extends Feature {
   String get name => '/sectionB';
 
   @override
+  onBranchChange({String? name, GoRouterState? state}) {
+    //print('branch change $name');
+  }
+
+  @override
   List<GoRoute> get routes => [
         GoRoute(
           path: name,

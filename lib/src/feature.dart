@@ -16,6 +16,13 @@ abstract class Feature {
   /// feature dependencies
   void get dependencies => () => {};
 
+  onNavigate(
+      {String? name,
+      Map<String, String>? pathParameters,
+      Map<String, dynamic>? queryParameters,
+      Object? extra}) {}
+  onBranchChange({String? name, GoRouterState? state}) {}
+
   /// route push name
   /// AppFeature.get<HomeFeature>().push()
   Future<T?> push<T extends Object?>({
@@ -23,37 +30,58 @@ abstract class Feature {
     Map<String, String> pathParameters = const <String, String>{},
     Map<String, dynamic> queryParameters = const <String, dynamic>{},
     Object? extra,
-  }) =>
-      AppFeatures.router.pushNamed(name ?? this.name,
-          pathParameters: pathParameters,
-          queryParameters: queryParameters,
-          extra: extra);
+  }) {
+    onNavigate(
+      name: name ?? this.name,
+      pathParameters: pathParameters,
+      queryParameters: queryParameters,
+      extra: extra,
+    );
+    return AppFeatures.router.pushNamed<T>(name ?? this.name,
+        pathParameters: pathParameters,
+        queryParameters: queryParameters,
+        extra: extra);
+  }
 
   /// route replace name
   /// AppFeature.get<HomeFeature>().replace()
-  void replace({
+  Future<T?> replace<T>({
     String? name,
     Map<String, String> pathParameters = const <String, String>{},
     Map<String, dynamic> queryParameters = const <String, dynamic>{},
     Object? extra,
-  }) =>
-      AppFeatures.router.replaceNamed(name ?? this.name,
-          pathParameters: pathParameters,
-          queryParameters: queryParameters,
-          extra: extra);
+  }) {
+    onNavigate(
+      name: name ?? this.name,
+      pathParameters: pathParameters,
+      queryParameters: queryParameters,
+      extra: extra,
+    );
+    return AppFeatures.router.replaceNamed<T>(name ?? this.name,
+        pathParameters: pathParameters,
+        queryParameters: queryParameters,
+        extra: extra);
+  }
 
   /// route pushReplace name
   /// AppFeature.get<HomeFeature>().replace()
-  void pushReplace({
+  Future<T?> pushReplacement<T extends Object?>({
     String? name,
     Map<String, String> pathParameters = const <String, String>{},
     Map<String, dynamic> queryParameters = const <String, dynamic>{},
     Object? extra,
-  }) =>
-      AppFeatures.router.pushReplacementNamed(name ?? this.name,
-          pathParameters: pathParameters,
-          queryParameters: queryParameters,
-          extra: extra);
+  }) {
+    onNavigate(
+      name: name ?? this.name,
+      pathParameters: pathParameters,
+      queryParameters: queryParameters,
+      extra: extra,
+    );
+    return AppFeatures.router.pushReplacementNamed<T>(name ?? this.name,
+        pathParameters: pathParameters,
+        queryParameters: queryParameters,
+        extra: extra);
+  }
 
   /// route go name
   /// AppFeature.get<HomeFeature>().go()
@@ -62,11 +90,18 @@ abstract class Feature {
     Map<String, String> pathParameters = const <String, String>{},
     Map<String, dynamic> queryParameters = const <String, dynamic>{},
     Object? extra,
-  }) =>
-      AppFeatures.router.goNamed(name ?? this.name,
-          pathParameters: pathParameters,
-          queryParameters: queryParameters,
-          extra: extra);
+  }) {
+    onNavigate(
+      name: name ?? this.name,
+      pathParameters: pathParameters,
+      queryParameters: queryParameters,
+      extra: extra,
+    );
+    return AppFeatures.router.goNamed(name ?? this.name,
+        pathParameters: pathParameters,
+        queryParameters: queryParameters,
+        extra: extra);
+  }
 
   routesWithRootKey(rootNavigatorKey) {
     return routes.map((e) {

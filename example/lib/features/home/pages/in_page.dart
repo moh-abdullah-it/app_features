@@ -7,7 +7,7 @@ class InPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Page In Home Nav'),
+        title: const Text('Page In Home Nav'),
       ),
     );
   }

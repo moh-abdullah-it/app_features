@@ -10,6 +10,8 @@ typedef BottomNavigationBuilder = Widget Function(
 abstract class MasterLayout {
   List<Feature> get features;
 
+  String? _currentName;
+
   StatefulShellRouteBuilder? get masterPageBuilder => null;
 
   BottomNavigationBuilder? get bottomNavigationBar => null;
@@ -18,6 +20,12 @@ abstract class MasterLayout {
       builder: masterPageBuilder ??
           (BuildContext context, GoRouterState state,
               StatefulNavigationShell navigationShell) {
+            Feature feature = features[navigationShell.currentIndex];
+            if (_currentName != feature.name) {
+              feature.onBranchChange(name: feature.name, state: state);
+              _currentName = feature.name;
+            }
+
             return MasterPage(
               navigationShell: navigationShell,
               bottomNavigationBar: bottomNavigationBar,
