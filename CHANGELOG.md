@@ -1,3 +1,7 @@
+## 0.7.0
+* improve `pop` with result
+* modify `canPop`
+
 ## 0.6.0
 * modify `onNavigate` to listen if routes in feature changed
 * modify `onBranchChange` to listen if branch in master layout changed

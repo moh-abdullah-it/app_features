@@ -1,6 +1,6 @@
 name: app_features
 description: This package help you to Organize folders Structure by feature scope.
-version: 0.6.0
+version: 0.7.0
 homepage: https://github.com/moh-abdullah-it/app_features
 
 environment:

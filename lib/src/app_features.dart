@@ -79,7 +79,13 @@ class AppFeatures {
 
   /// router go back
   /// AppFeature.pop()
-  static void pop() => router.pop();
+  static void pop<T extends Object?>([T? result]) {
+    if (canPop()) {
+      router.pop(result);
+    }
+  }
+
+  static bool canPop() => router.canPop();
 
   /// OverlayUtils incidence
   /// AppFeatures.overlay
