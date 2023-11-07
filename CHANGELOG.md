@@ -1,3 +1,7 @@
+## 0.8.0
+* improve `listen` to feature route navigation
+* modify `on` to register route event
+
 ## 0.7.0
 * improve `pop` with result
 * modify `canPop`

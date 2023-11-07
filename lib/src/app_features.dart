@@ -56,6 +56,7 @@ class AppFeatures {
     if (!_featuresMap.containsKey(feature.runtimeType.toString())) {
       _featuresMap[feature.runtimeType.toString()] = feature;
       feature.dependencies;
+      feature.listen();
       if (needRegisterRoutes) {
         registerRoutes(feature);
       }

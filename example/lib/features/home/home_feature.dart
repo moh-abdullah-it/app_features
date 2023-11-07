@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:app_features/app_features.dart';
 import 'package:example/features/home/pages/in_page.dart';
 import 'package:example/features/home/pages/test_bottom_sheet_page.dart';
@@ -7,21 +9,12 @@ import 'home_page.dart';
 
 class HomeFeature extends Feature {
   @override
+  listen() => on(name, openHome);
+
+  openHome(pathParameters, queryParameters, extra) => log('home page');
+
+  @override
   void get dependencies => () => {};
-
-  @override
-  onBranchChange({String? name, GoRouterState? state}) {
-    //print('onBranchChange $name');
-  }
-
-  @override
-  onNavigate(
-      {String? name,
-      Map<String, String>? pathParameters,
-      Map<String, dynamic>? queryParameters,
-      Object? extra}) {
-    // print('onNavigate $name');
-  }
 
   @override
   String get name => '/home';

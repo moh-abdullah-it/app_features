@@ -21,10 +21,10 @@ abstract class MasterLayout {
           (BuildContext context, GoRouterState state,
               StatefulNavigationShell navigationShell) {
             Feature feature = features[navigationShell.currentIndex];
-            if (_currentName != feature.name) {
-              feature.onBranchChange(name: feature.name, state: state);
-              _currentName = feature.name;
+            if (_currentName != null && _currentName != feature.name) {
+              feature.emit(feature.name, null, null, state);
             }
+            _currentName = feature.name;
 
             return MasterPage(
               navigationShell: navigationShell,

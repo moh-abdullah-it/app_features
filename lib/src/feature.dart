@@ -1,7 +1,16 @@
+import 'dart:developer';
+
 import 'package:app_features/app_features.dart';
 import 'package:flutter/material.dart';
 
+typedef Callback = dynamic Function(Map<String, String>? pathParameters,
+    Map<String, dynamic>? queryParameters, Object? extra);
+
 abstract class Feature {
+  final Map<String, Callback> _subscriptions = <String, Callback>{};
+
+  listen() {}
+
   /// name of feature and use it as path
   /// use it to open feature AppFeature.get<HomeFeature>().push()
   String get name;
@@ -16,13 +25,6 @@ abstract class Feature {
   /// feature dependencies
   void get dependencies => () => {};
 
-  onNavigate(
-      {String? name,
-      Map<String, String>? pathParameters,
-      Map<String, dynamic>? queryParameters,
-      Object? extra}) {}
-  onBranchChange({String? name, GoRouterState? state}) {}
-
   /// route push name
   /// AppFeature.get<HomeFeature>().push()
   Future<T?> push<T extends Object?>({
@@ -31,12 +33,7 @@ abstract class Feature {
     Map<String, dynamic> queryParameters = const <String, dynamic>{},
     Object? extra,
   }) {
-    onNavigate(
-      name: name ?? this.name,
-      pathParameters: pathParameters,
-      queryParameters: queryParameters,
-      extra: extra,
-    );
+    emit(name ?? this.name, pathParameters, queryParameters, extra);
     return AppFeatures.router.pushNamed<T>(name ?? this.name,
         pathParameters: pathParameters,
         queryParameters: queryParameters,
@@ -51,12 +48,8 @@ abstract class Feature {
     Map<String, dynamic> queryParameters = const <String, dynamic>{},
     Object? extra,
   }) {
-    onNavigate(
-      name: name ?? this.name,
-      pathParameters: pathParameters,
-      queryParameters: queryParameters,
-      extra: extra,
-    );
+    emit(name ?? this.name, pathParameters, queryParameters, extra);
+
     return AppFeatures.router.replaceNamed<T>(name ?? this.name,
         pathParameters: pathParameters,
         queryParameters: queryParameters,
@@ -71,12 +64,8 @@ abstract class Feature {
     Map<String, dynamic> queryParameters = const <String, dynamic>{},
     Object? extra,
   }) {
-    onNavigate(
-      name: name ?? this.name,
-      pathParameters: pathParameters,
-      queryParameters: queryParameters,
-      extra: extra,
-    );
+    emit(name ?? this.name, pathParameters, queryParameters, extra);
+
     return AppFeatures.router.pushReplacementNamed<T>(name ?? this.name,
         pathParameters: pathParameters,
         queryParameters: queryParameters,
@@ -91,12 +80,8 @@ abstract class Feature {
     Map<String, dynamic> queryParameters = const <String, dynamic>{},
     Object? extra,
   }) {
-    onNavigate(
-      name: name ?? this.name,
-      pathParameters: pathParameters,
-      queryParameters: queryParameters,
-      extra: extra,
-    );
+    emit(name ?? this.name, pathParameters, queryParameters, extra);
+
     return AppFeatures.router.goNamed(name ?? this.name,
         pathParameters: pathParameters,
         queryParameters: queryParameters,
@@ -115,4 +100,19 @@ abstract class Feature {
           routes: e.routes);
     }).toList();
   }
+
+  Future<List> emit(String name, Map<String, String>? pathParameters,
+      Map<String, dynamic>? queryParameters, Object? extra) {
+    log('current route name: $name');
+    var results = <Future>[];
+    _subscriptions.forEach((key, Callback subscription) {
+      if (key == name) {
+        var result = subscription(pathParameters, queryParameters, extra);
+        results.add(result is Future ? result : Future(() => result));
+      }
+    });
+    return Future.wait(results);
+  }
+
+  on(String name, Callback callback) => _subscriptions[name] = callback;
 }
