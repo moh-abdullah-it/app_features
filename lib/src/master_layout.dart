@@ -16,16 +16,19 @@ abstract class MasterLayout {
 
   BottomNavigationBuilder? get bottomNavigationBar => null;
 
+  modifyListener(GoRouterState state, StatefulNavigationShell navigationShell) {
+    Feature feature = features[navigationShell.currentIndex];
+    if (_currentName != null && _currentName != feature.name) {
+      feature.emit(feature.name, null, null, state);
+    }
+    _currentName = feature.name;
+  }
+
   RouteBase getShellRoute() => StatefulShellRoute.indexedStack(
       builder: masterPageBuilder ??
           (BuildContext context, GoRouterState state,
               StatefulNavigationShell navigationShell) {
-            Feature feature = features[navigationShell.currentIndex];
-            if (_currentName != null && _currentName != feature.name) {
-              feature.emit(feature.name, null, null, state);
-            }
-            _currentName = feature.name;
-
+            modifyListener(state, navigationShell);
             return MasterPage(
               navigationShell: navigationShell,
               bottomNavigationBar: bottomNavigationBar,

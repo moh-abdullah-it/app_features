@@ -1,3 +1,6 @@
+## 0.9.0
+* modify `modifyListener` to master layout if use masterPageBuilder
+
 ## 0.8.0
 * improve `listen` to feature route navigation
 * modify `on` to register route event
