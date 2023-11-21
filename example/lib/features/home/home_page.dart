@@ -21,8 +21,8 @@ class HomePage extends StatelessWidget {
               child: const Text('Out Home'),
             ),
             TextButton(
-              onPressed: () => AppFeatures.get<HomeFeature>().openInHome(),
-              child: const Text('In Home'),
+              onPressed: () => AppFeatures.restart(),
+              child: const Text('Restart'),
             ),
             TextButton(
               onPressed: () => AppFeatures.get<HomeFeature>().openDialog(),

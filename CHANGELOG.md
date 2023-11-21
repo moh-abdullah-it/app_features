@@ -1,3 +1,6 @@
+## 1.0.0
+* modify `restart` to restart app.
+
 ## 0.9.0
 * modify `modifyListener` to master layout if use masterPageBuilder
 

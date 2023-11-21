@@ -100,4 +100,6 @@ class AppFeatures {
   /// router refresh current rote
   /// AppFeatures.refresh;
   static void refresh = router.refresh();
+
+  static void restart([String initLocation = '/']) => router.go(initLocation);
 }
