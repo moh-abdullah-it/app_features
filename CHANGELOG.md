@@ -1,3 +1,10 @@
+## 1.0.2
+* upgrade dependencies.
+* Comprehensive documentation update with detailed examples and usage instructions.
+
+## 1.0.1
+* update go_router ^13.2.1.
+
 ## 1.0.0
 * modify `restart` to restart app.
 
