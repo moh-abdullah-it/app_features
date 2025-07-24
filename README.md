@@ -19,18 +19,10 @@ App Features provides a structured way to organize your Flutter application by f
 - **Event System**: Subscribe to route changes and other events within features
 
 ## Installation
-
-Add app_features to your pubspec.yaml:
-
-```yaml
-dependencies:
-  app_features: ^1.0.1
-```
-
-Then run:
+run this command to add `app_features`:
 
 ```bash
-flutter pub get
+flutter pub add app_features
 ```
 
 ## Basic Setup
