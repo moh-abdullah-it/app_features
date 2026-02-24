@@ -16,7 +16,7 @@ abstract class Feature {
   String get name;
 
   /// list of feature routes
-  List<GoRoute> get routes;
+  List<RouteBase> get routes;
 
   /// feature navigator key
   GlobalKey<NavigatorState> get navigatorKey =>
@@ -24,6 +24,18 @@ abstract class Feature {
 
   /// feature dependencies
   void get dependencies => () => {};
+
+  /// whether to preload this branch when used in MasterLayout
+  bool get preloadBranch => false;
+
+  /// initial location for this branch in MasterLayout
+  String? get branchInitialLocation => null;
+
+  /// navigator observers for this branch in MasterLayout
+  List<NavigatorObserver>? get branchObservers => null;
+
+  /// restoration scope id for this branch in MasterLayout
+  String? get branchRestorationScopeId => null;
 
   /// route push name
   /// AppFeature.get<HomeFeature>().push()
@@ -79,25 +91,54 @@ abstract class Feature {
     Map<String, String> pathParameters = const <String, String>{},
     Map<String, dynamic> queryParameters = const <String, dynamic>{},
     Object? extra,
+    String? fragment,
   }) {
     emit(name ?? this.name, pathParameters, queryParameters, extra);
 
     return AppFeatures.router.goNamed(name ?? this.name,
         pathParameters: pathParameters,
         queryParameters: queryParameters,
-        extra: extra);
+        extra: extra,
+        fragment: fragment);
   }
 
-  routesWithRootKey(rootNavigatorKey) {
-    return routes.map((e) {
-      return GoRoute(
+  /// route push by path
+  Future<T?> pushPath<T extends Object?>(String path, {Object? extra}) {
+    return AppFeatures.router.push<T>(path, extra: extra);
+  }
+
+  /// route go by path
+  void goPath(String path, {Object? extra}) {
+    AppFeatures.router.go(path, extra: extra);
+  }
+
+  /// route replace by path
+  Future<T?> replacePath<T>(String path, {Object? extra}) {
+    return AppFeatures.router.replace<T>(path, extra: extra);
+  }
+
+  /// route pushReplacement by path
+  Future<T?> pushReplacementPath<T extends Object?>(String path,
+      {Object? extra}) {
+    return AppFeatures.router.pushReplacement<T>(path, extra: extra);
+  }
+
+  List<RouteBase> routesWithRootKey(GlobalKey<NavigatorState> rootNavigatorKey) {
+    return routes.map((RouteBase e) {
+      if (e is GoRoute) {
+        return GoRoute(
           path: e.path,
           name: e.name,
           parentNavigatorKey: rootNavigatorKey,
           builder: e.builder,
           pageBuilder: e.pageBuilder,
           redirect: e.redirect,
-          routes: e.routes);
+          onExit: e.onExit,
+          caseSensitive: e.caseSensitive,
+          routes: e.routes,
+        );
+      }
+      return e;
     }).toList();
   }
 

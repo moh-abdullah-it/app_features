@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:app_features/src/utils/overlay_utils.dart';
 import 'package:app_features/src/utils/scaffold_messenger_utils.dart';
 import 'package:flutter/material.dart';
@@ -23,11 +25,26 @@ class AppFeatures {
   /// ],
   /// initLocation: '/'
   /// )
-  AppFeatures.config(
-      {required this.features,
-      this.masterLayout,
-      List<GoRoute>? appRoutes,
-      String initLocation = '/'}) {
+  AppFeatures.config({
+    required this.features,
+    this.masterLayout,
+    List<RouteBase>? appRoutes,
+    String initLocation = '/',
+    GoRouterRedirect? redirect,
+    Listenable? refreshListenable,
+    GoExceptionHandler? onException,
+    GoRouterPageBuilder? errorPageBuilder,
+    GoRouterWidgetBuilder? errorBuilder,
+    List<NavigatorObserver>? observers,
+    bool debugLogDiagnostics = false,
+    bool routerNeglect = false,
+    bool overridePlatformDefaultLocation = false,
+    Object? initialExtra,
+    int redirectLimit = 5,
+    String? restorationScopeId,
+    bool requestFocus = true,
+    Codec<Object?, Object?>? extraCodec,
+  }) {
     register(features);
     if (masterLayout != null) {
       _routes.add(masterLayout!.getShellRoute());
@@ -35,9 +52,24 @@ class AppFeatures {
     }
     _routes.addAll(appRoutes ?? []);
     _router = GoRouter(
-        initialLocation: initLocation,
-        routes: _routes,
-        navigatorKey: _rootNavigatorKey);
+      initialLocation: initLocation,
+      routes: _routes,
+      navigatorKey: _rootNavigatorKey,
+      redirect: redirect,
+      refreshListenable: refreshListenable,
+      onException: onException,
+      errorPageBuilder: errorPageBuilder,
+      errorBuilder: errorBuilder,
+      observers: observers,
+      debugLogDiagnostics: debugLogDiagnostics,
+      routerNeglect: routerNeglect,
+      overridePlatformDefaultLocation: overridePlatformDefaultLocation,
+      initialExtra: initialExtra,
+      redirectLimit: redirectLimit,
+      restorationScopeId: restorationScopeId,
+      requestFocus: requestFocus,
+      extraCodec: extraCodec,
+    );
   }
 
   /// get feature instance from app feature as singleton
@@ -46,7 +78,7 @@ class AppFeatures {
     if (_featuresMap.containsKey(T.toString())) {
       return _featuresMap[T.toString()] as T;
     }
-    throw Exception("Future ${T.toString()} Not Found");
+    throw Exception("Feature ${T.toString()} Not Found");
   }
 
   /// register feature in singleton features
@@ -99,7 +131,30 @@ class AppFeatures {
 
   /// router refresh current rote
   /// AppFeatures.refresh;
-  static void refresh = router.refresh();
+  static void get refresh => router.refresh();
 
   static void restart([String initLocation = '/']) => router.go(initLocation);
+
+  /// Get the named location for a route
+  static String namedLocation(
+    String name, {
+    Map<String, String> pathParameters = const <String, String>{},
+    Map<String, dynamic> queryParameters = const <String, dynamic>{},
+    String? fragment,
+  }) =>
+      router.namedLocation(name,
+          pathParameters: pathParameters,
+          queryParameters: queryParameters,
+          fragment: fragment);
+
+  /// Navigate to a path
+  static void go(String path, {Object? extra}) =>
+      router.go(path, extra: extra);
+
+  /// Push a path onto the navigation stack
+  static Future<T?> push<T extends Object?>(String path, {Object? extra}) =>
+      router.push<T>(path, extra: extra);
+
+  /// Get the current router state
+  static GoRouterState get state => router.state;
 }
