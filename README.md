@@ -322,19 +322,163 @@ AppFeatures.scaffoldMessenger.showSnackBar(
 );
 ```
 
+## Feature Guards
+
+Protect feature routes with per-feature redirects:
+
+```dart
+class ProfileFeature extends Feature {
+  @override
+  String get name => '/profile';
+
+  @override
+  FutureOr<String?> redirect(BuildContext context, GoRouterState state) {
+    if (!AuthService.isLoggedIn) return '/auth/login';
+    return null;
+  }
+
+  @override
+  List<RouteBase> get routes => [
+    GoRoute(path: name, name: name, builder: (_, __) => const ProfilePage()),
+  ];
+}
+```
+
+The feature redirect runs **before** any route-level redirect. Returns `null` to allow navigation, or a path to redirect.
+
+## Async Initialization
+
+Features that need async setup (database, SDK, etc.) can override `init()`:
+
+```dart
+class PaymentFeature extends Feature {
+  @override
+  String get name => '/payment';
+
+  @override
+  Future<void> init() async {
+    await StripeService.initialize(publishableKey: 'pk_...');
+  }
+
+  @override
+  List<RouteBase> get routes => [...];
+}
+```
+
+Use `configAsync` instead of `config` to await all feature initializations:
+
+```dart
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await AppFeatures.configAsync(
+    features: [SplashFeature(), PaymentFeature()],
+    masterLayout: AppMasterLayout(),
+  );
+
+  runApp(const MyApp());
+}
+```
+
+## Feature Middleware
+
+Lifecycle hooks are triggered automatically when navigating between features:
+
+```dart
+class AnalyticsFeature extends Feature {
+  @override
+  String get name => '/analytics';
+
+  @override
+  void onEnter(GoRouterState state) {
+    AnalyticsService.logScreenView(state.matchedLocation);
+  }
+
+  @override
+  void onLeave(GoRouterState state) {
+    AnalyticsService.logScreenExit(state.matchedLocation);
+  }
+
+  @override
+  List<RouteBase> get routes => [...];
+}
+```
+
+`onLeave` fires on the old feature **before** `onEnter` on the new one. Not triggered when navigating within the same feature.
+
 ## Event System
 
-Subscribe to route changes within a feature:
+Subscribe to route changes within a feature. Multiple listeners per route are supported:
 
 ```dart
 @override
 listen() {
   on('product_details', (pathParams, queryParams, extra) {
-    // Do something when navigating to product_details
     final productId = pathParams?['id'];
     loadProductData(productId);
   });
+
+  // Multiple listeners on the same route
+  on('product_details', (pathParams, queryParams, extra) {
+    logAnalytics('viewed_product');
+  });
 }
+
+// Remove a specific listener
+off('product_details', myCallback);
+
+// Remove all listeners for a route
+offAll('product_details');
+```
+
+## Global Event Bus
+
+Cross-feature communication without direct dependencies:
+
+```dart
+// Feature A emits an event
+AppFeatures.emit('user_logged_in', data: user);
+
+// Feature B listens
+AppFeatures.on('user_logged_in', (data) {
+  final user = data as User;
+  refreshProfile(user.id);
+});
+
+// Remove a listener
+AppFeatures.off('user_logged_in', myCallback);
+
+// Remove all listeners for an event
+AppFeatures.offAll('user_logged_in');
+
+// Clear all event listeners
+AppFeatures.clearEvents();
+```
+
+## Nested Features
+
+Organize large apps by grouping sub-features under a parent:
+
+```dart
+class ShopFeature extends Feature {
+  @override
+  String get name => '/shop';
+
+  @override
+  List<Feature> get subFeatures => [
+    CartFeature(),
+    CheckoutFeature(),
+    ProductDetailsFeature(),
+  ];
+
+  @override
+  List<RouteBase> get routes => [
+    GoRoute(path: name, name: name, builder: (_, __) => const ShopPage()),
+  ];
+}
+
+// Sub-features are registered automatically. Access them normally:
+AppFeatures.get<CartFeature>().push();
 ```
 
 ## Advanced Usage

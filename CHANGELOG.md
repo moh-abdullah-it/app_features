@@ -1,3 +1,11 @@
+## 1.2.0
+* Add **Feature Guards**: per-feature `redirect` method that runs before route-level redirects.
+* Add **Async Initialization**: `Feature.init()` hook + `AppFeatures.configAsync()` for async setup.
+* Add **Feature Middleware**: `onEnter`/`onLeave` lifecycle hooks triggered automatically on navigation.
+* Add **Multi-Listener Events**: `Feature.on()` now supports multiple callbacks per route name + `off()`/`offAll()`.
+* Add **Global Event Bus**: `AppFeatures.on()`/`emit()`/`off()` for cross-feature communication.
+* Add **Nested Features**: `Feature.subFeatures` for automatic sub-feature registration.
+
 ## 1.1.0
 * **BREAKING**: upgrade `go_router` from `^16.0.0` to `^17.0.0`.
 * **Bug Fix**: fix `routesWithRootKey` losing `onExit` and `caseSensitive` properties when rebuilding routes.

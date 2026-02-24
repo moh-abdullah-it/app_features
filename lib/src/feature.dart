@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:app_features/app_features.dart';
@@ -7,7 +8,8 @@ typedef Callback = dynamic Function(Map<String, String>? pathParameters,
     Map<String, dynamic>? queryParameters, Object? extra);
 
 abstract class Feature {
-  final Map<String, Callback> _subscriptions = <String, Callback>{};
+  final Map<String, List<Callback>> _subscriptions =
+      <String, List<Callback>>{};
 
   listen() {}
 
@@ -24,6 +26,24 @@ abstract class Feature {
 
   /// feature dependencies
   void get dependencies => () => {};
+
+  /// Async initialization hook. Called once during [AppFeatures.configAsync].
+  /// Override to perform async setup (database, services, etc.)
+  Future<void> init() async {}
+
+  /// Route-level redirect for this feature.
+  /// Return a path to redirect, or null to allow navigation.
+  FutureOr<String?> redirect(BuildContext context, GoRouterState state) => null;
+
+  /// Called when any route of this feature is entered.
+  void onEnter(GoRouterState state) {}
+
+  /// Called when leaving any route of this feature.
+  void onLeave(GoRouterState state) {}
+
+  /// Sub-features owned by this feature. Registered automatically
+  /// when the parent feature is registered.
+  List<Feature> get subFeatures => [];
 
   /// whether to preload this branch when used in MasterLayout
   bool get preloadBranch => false;
@@ -123,6 +143,19 @@ abstract class Feature {
     return AppFeatures.router.pushReplacement<T>(path, extra: extra);
   }
 
+  /// Merges feature-level redirect with route-level redirect.
+  /// Feature redirect runs first; if it returns null, the route redirect runs.
+  GoRouterRedirect _mergeRedirects(GoRouterRedirect? routeRedirect) {
+    return (BuildContext context, GoRouterState state) async {
+      final featureResult = await redirect(context, state);
+      if (featureResult != null) return featureResult;
+      if (routeRedirect != null && context.mounted) {
+        return routeRedirect(context, state);
+      }
+      return null;
+    };
+  }
+
   List<RouteBase> routesWithRootKey(GlobalKey<NavigatorState> rootNavigatorKey) {
     return routes.map((RouteBase e) {
       if (e is GoRoute) {
@@ -132,7 +165,7 @@ abstract class Feature {
           parentNavigatorKey: rootNavigatorKey,
           builder: e.builder,
           pageBuilder: e.pageBuilder,
-          redirect: e.redirect,
+          redirect: _mergeRedirects(e.redirect),
           onExit: e.onExit,
           caseSensitive: e.caseSensitive,
           routes: e.routes,
@@ -142,18 +175,34 @@ abstract class Feature {
     }).toList();
   }
 
+  /// Register a callback for a route name.
+  /// Multiple callbacks per name are supported.
+  void on(String name, Callback callback) {
+    _subscriptions.putIfAbsent(name, () => []);
+    _subscriptions[name]!.add(callback);
+  }
+
+  /// Remove a specific callback for a route name.
+  void off(String name, Callback callback) {
+    _subscriptions[name]?.remove(callback);
+  }
+
+  /// Remove all callbacks for a route name.
+  void offAll(String name) {
+    _subscriptions.remove(name);
+  }
+
   Future<List> emit(String name, Map<String, String>? pathParameters,
       Map<String, dynamic>? queryParameters, Object? extra) {
     log('current route name: $name');
     var results = <Future>[];
-    _subscriptions.forEach((key, Callback subscription) {
-      if (key == name) {
-        var result = subscription(pathParameters, queryParameters, extra);
+    final callbacks = _subscriptions[name];
+    if (callbacks != null) {
+      for (final callback in callbacks) {
+        var result = callback(pathParameters, queryParameters, extra);
         results.add(result is Future ? result : Future(() => result));
       }
-    });
+    }
     return Future.wait(results);
   }
-
-  on(String name, Callback callback) => _subscriptions[name] = callback;
 }
