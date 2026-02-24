@@ -5,6 +5,7 @@
 * Add **Multi-Listener Events**: `Feature.on()` now supports multiple callbacks per route name + `off()`/`offAll()`.
 * Add **Global Event Bus**: `AppFeatures.on()`/`emit()`/`off()` for cross-feature communication.
 * Add **Nested Features**: `Feature.subFeatures` for automatic sub-feature registration.
+* Rewrite example app to demonstrate all features: async init, feature guards, middleware, multi-listener events, global event bus, nested features, branch config, shell route config, dialog/bottom sheet routes, overlay utilities, scaffold messenger, and Material 3.
 
 ## 1.1.0
 * **BREAKING**: upgrade `go_router` from `^16.0.0` to `^17.0.0`.
