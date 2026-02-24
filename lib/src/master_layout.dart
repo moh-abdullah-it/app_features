@@ -29,6 +29,9 @@ abstract class MasterLayout {
   /// StatefulShellRoute() instead of StatefulShellRoute.indexedStack()
   ShellNavigationContainerBuilder? get navigatorContainerBuilder => null;
 
+  /// whether shell route navigation changes notify root GoRouter observers
+  bool get notifyRootObserver => true;
+
   modifyListener(GoRouterState state, StatefulNavigationShell navigationShell) {
     Feature feature = features[navigationShell.currentIndex];
     if (_currentName != null && _currentName != feature.name) {
@@ -67,6 +70,7 @@ abstract class MasterLayout {
         parentNavigatorKey: parentNavigatorKey,
         restorationScopeId: restorationScopeId,
         navigatorContainerBuilder: navigatorContainerBuilder!,
+        notifyRootObserver: notifyRootObserver,
       );
     }
 
@@ -76,6 +80,7 @@ abstract class MasterLayout {
       redirect: redirect,
       parentNavigatorKey: parentNavigatorKey,
       restorationScopeId: restorationScopeId,
+      notifyRootObserver: notifyRootObserver,
     );
   }
 }
