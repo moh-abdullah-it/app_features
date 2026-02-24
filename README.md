@@ -12,7 +12,10 @@ App Features provides a structured way to organize your Flutter application by f
 
 - **Feature-based Architecture**: Organize your code by features, each with its own routes and dependencies
 - **Integrated Routing**: Built on go_router with simplified navigation between features
-- **Master Layout Support**: Create shell routes with bottom navigation for main app sections
+- **Full go_router API Support**: All GoRouter constructor parameters are exposed through `AppFeatures.config()`
+- **Flexible Route Types**: Features support `GoRoute`, `ShellRoute`, and any `RouteBase` subclass
+- **Named & Path Navigation**: Navigate by route name or by path with full parameter support
+- **Master Layout Support**: Create shell routes with bottom navigation, with full branch and shell configuration
 - **Dialog & Bottom Sheet Routing**: Handle dialogs and bottom sheets as part of your navigation system
 - **Overlay Support**: Show dialogs, bottom sheets, and loading indicators from anywhere
 - **Scaffold Messenger Utilities**: Display snackbars and toast messages easily
@@ -44,6 +47,11 @@ void main() {
     masterLayout: AppMasterLayout(),
     // Optional: Set initial route
     initLocation: '/',
+    // Optional: All GoRouter parameters are supported
+    redirect: (context, state) => null,
+    debugLogDiagnostics: true,
+    observers: [MyNavigatorObserver()],
+    errorBuilder: (context, state) => ErrorPage(error: state.error),
   );
 
   runApp(const MyApp());
@@ -84,7 +92,7 @@ class AuthFeature extends Feature {
   String get name => '/auth';
 
   @override
-  List<GoRoute> get routes => [
+  List<RouteBase> get routes => [
     GoRoute(
       path: name,
       name: name,
@@ -173,6 +181,51 @@ AppFeatures.get<ProductFeature>().push(
   queryParameters: {'source': 'search'},
   extra: productData,
 );
+```
+
+### Path-Based Navigation
+
+Navigate using paths instead of route names:
+
+```dart
+// Push by path
+AppFeatures.get<AuthFeature>().pushPath('/auth/login');
+
+// Go by path
+AppFeatures.get<AuthFeature>().goPath('/auth/login', extra: data);
+
+// Replace by path
+AppFeatures.get<AuthFeature>().replacePath('/auth/register');
+
+// Push replacement by path
+AppFeatures.get<AuthFeature>().pushReplacementPath('/auth/login');
+```
+
+### Navigate with Fragment
+
+```dart
+// Navigate with a URL fragment
+AppFeatures.get<DocsFeature>().go(
+  name: 'docs',
+  fragment: 'section-2',
+);
+```
+
+### Static Navigation Helpers
+
+```dart
+// Navigate by path directly from AppFeatures
+AppFeatures.go('/auth/login', extra: data);
+AppFeatures.push<bool>('/confirm');
+
+// Get a named location URI
+final uri = AppFeatures.namedLocation(
+  'product_details',
+  pathParameters: {'id': '123'},
+);
+
+// Access the current router state
+final currentState = AppFeatures.state;
 ```
 
 ### Basic Navigation
@@ -286,6 +339,98 @@ listen() {
 
 ## Advanced Usage
 
+### Branch Configuration
+
+Configure individual branches in the master layout via Feature getters:
+
+```dart
+class HomeFeature extends Feature {
+  @override
+  String get name => '/home';
+
+  @override
+  List<RouteBase> get routes => [
+    GoRoute(path: name, name: name, builder: (_, __) => const HomePage()),
+  ];
+
+  // Preload this branch when master layout first loads
+  @override
+  bool get preloadBranch => true;
+
+  // Set a custom initial location for this branch
+  @override
+  String? get branchInitialLocation => '/home/feed';
+
+  // Add observers to this branch's navigator
+  @override
+  List<NavigatorObserver>? get branchObservers => [MyObserver()];
+
+  // Set a restoration scope id for state restoration
+  @override
+  String? get branchRestorationScopeId => 'home_branch';
+}
+```
+
+### Shell Route Configuration
+
+Configure the shell route directly on MasterLayout:
+
+```dart
+class AppMasterLayout extends MasterLayout {
+  @override
+  List<Feature> get features => [HomeFeature(), ProfileFeature()];
+
+  @override
+  BottomNavigationBuilder get bottomNavigationBar =>
+    (navigationShell) => BottomNavigationBar(
+      currentIndex: navigationShell.currentIndex,
+      onTap: navigationShell.goBranch,
+      items: const [
+        BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+        BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
+      ],
+    );
+
+  // Optional: Set a restoration scope id for the shell
+  @override
+  String? get restorationScopeId => 'main_shell';
+
+  // Optional: Add a top-level redirect for the shell
+  @override
+  GoRouterRedirect? get redirect => (context, state) => null;
+
+  // Optional: Control whether navigation changes notify root observers
+  @override
+  bool get notifyRootObserver => true;
+}
+```
+
+### Custom Navigator Container
+
+Use a custom container instead of the default `IndexedStack`:
+
+```dart
+class AppMasterLayout extends MasterLayout {
+  @override
+  List<Feature> get features => [HomeFeature(), ProfileFeature()];
+
+  @override
+  ShellNavigationContainerBuilder get navigatorContainerBuilder =>
+    (context, navigationShell, children) {
+      return MyCustomContainer(
+        currentIndex: navigationShell.currentIndex,
+        children: children,
+      );
+    };
+
+  @override
+  StatefulShellRouteBuilder get masterPageBuilder =>
+    (context, state, navigationShell) {
+      return CustomMasterPage(navigationShell: navigationShell);
+    };
+}
+```
+
 ### Custom Master Page Builder
 
 ```dart
@@ -304,6 +449,36 @@ class AppMasterLayout extends MasterLayout {
         // Custom properties
       );
     };
+}
+```
+
+### Using ShellRoute in Features
+
+Features can now use any `RouteBase`, not just `GoRoute`:
+
+```dart
+class SettingsFeature extends Feature {
+  @override
+  String get name => '/settings';
+
+  @override
+  List<RouteBase> get routes => [
+    ShellRoute(
+      builder: (context, state, child) => SettingsShell(child: child),
+      routes: [
+        GoRoute(
+          path: name,
+          name: name,
+          builder: (_, __) => const SettingsPage(),
+        ),
+        GoRoute(
+          path: '$name/profile',
+          name: 'settings_profile',
+          builder: (_, __) => const ProfileSettingsPage(),
+        ),
+      ],
+    ),
+  ];
 }
 ```
 

@@ -1,3 +1,16 @@
+## 1.1.0
+* **BREAKING**: upgrade `go_router` from `^16.0.0` to `^17.0.0`.
+* **Bug Fix**: fix `routesWithRootKey` losing `onExit` and `caseSensitive` properties when rebuilding routes.
+* **Bug Fix**: fix `refresh` getter executing once at init instead of on each call.
+* **Bug Fix**: fix typo in error message ("Future" to "Feature").
+* Expand `Feature.routes` from `List<GoRoute>` to `List<RouteBase>` to support `ShellRoute` and other route types.
+* Add all `GoRouter` constructor parameters to `AppFeatures.config()` (`redirect`, `refreshListenable`, `onException`, `errorPageBuilder`, `errorBuilder`, `observers`, `debugLogDiagnostics`, `routerNeglect`, `overridePlatformDefaultLocation`, `initialExtra`, `redirectLimit`, `restorationScopeId`, `requestFocus`, `extraCodec`).
+* Add path-based navigation methods on `Feature`: `pushPath`, `goPath`, `replacePath`, `pushReplacementPath`.
+* Add `fragment` parameter to `Feature.go()`.
+* Add static helpers on `AppFeatures`: `namedLocation`, `go`, `push`, `state`.
+* Add branch config getters on `Feature`: `preloadBranch`, `branchInitialLocation`, `branchObservers`, `branchRestorationScopeId`.
+* Add `MasterLayout` shell route config: `restorationScopeId`, `redirect`, `parentNavigatorKey`, `navigatorContainerBuilder`, `notifyRootObserver`.
+
 ## 1.0.2
 * upgrade dependencies.
 * Comprehensive documentation update with detailed examples and usage instructions.
