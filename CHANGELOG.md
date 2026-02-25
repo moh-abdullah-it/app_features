@@ -1,3 +1,7 @@
+## 1.2.1
+* Fix all static analysis lint issues: add missing return type annotations, use `super.key` parameters, and wrap angle brackets in doc comments with backticks.
+* Remove unnecessary `library` directive.
+
 ## 1.2.0
 * Add **Feature Guards**: per-feature `redirect` method that runs before route-level redirects.
 * Add **Async Initialization**: `Feature.init()` hook + `AppFeatures.configAsync()` for async setup.
