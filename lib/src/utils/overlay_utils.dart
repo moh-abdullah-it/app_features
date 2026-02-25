@@ -12,7 +12,7 @@ class OverlayUtils {
   }
 
   /// open dialog with overlay
-  openDialog(
+  Future<T?> openDialog<T>(
     Widget child, {
     bool isDismissible = true,
     Color? barrierColor = Colors.black54,
@@ -36,7 +36,7 @@ class OverlayUtils {
           traversalEdgeBehavior: traversalEdgeBehavior);
 
   /// open ModalBottomSheet with overlay
-  openModalBottomSheet(Widget child,
+  Future<T?> openModalBottomSheet<T>(Widget child,
           {Color? backgroundColor,
           double? elevation,
           ShapeBorder? shape,
@@ -72,7 +72,7 @@ class OverlayUtils {
           anchorPoint: anchorPoint);
 
   /// open BottomSheet
-  openBottomSheet(Widget child,
+  PersistentBottomSheetController openBottomSheet(Widget child,
           {Color? backgroundColor,
           double? elevation,
           ShapeBorder? shape,
@@ -93,7 +93,7 @@ class OverlayUtils {
       );
 
   /// show simple loading
-  showLoading({
+  Future<T?> showLoading<T>({
     Widget? child = const LoadingWidget(),
     bool isDismissible = false,
     Color? barrierColor,

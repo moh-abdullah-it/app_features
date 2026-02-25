@@ -10,10 +10,9 @@ class MasterPage extends StatelessWidget {
   final BottomNavigationBuilder? bottomNavigationBar;
 
   const MasterPage(
-      {Key? key,
+      {super.key,
       required this.navigationShell,
-      required this.bottomNavigationBar})
-      : super(key: key);
+      required this.bottomNavigationBar});
 
   @override
   Widget build(BuildContext context) {

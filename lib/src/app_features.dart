@@ -173,7 +173,7 @@ class AppFeatures {
   }
 
   /// register feature routes
-  static registerRoutes(Feature feature) {
+  static void registerRoutes(Feature feature) {
     _routes.addAll(feature.routesWithRootKey(_rootNavigatorKey));
   }
 

@@ -11,10 +11,10 @@ abstract class Feature {
   final Map<String, List<Callback>> _subscriptions =
       <String, List<Callback>>{};
 
-  listen() {}
+  void listen() {}
 
   /// name of feature and use it as path
-  /// use it to open feature AppFeature.get<HomeFeature>().push()
+  /// use it to open feature `AppFeature.get<HomeFeature>().push()`
   String get name;
 
   /// list of feature routes
@@ -58,7 +58,7 @@ abstract class Feature {
   String? get branchRestorationScopeId => null;
 
   /// route push name
-  /// AppFeature.get<HomeFeature>().push()
+  /// `AppFeature.get<HomeFeature>().push()`
   Future<T?> push<T extends Object?>({
     String? name,
     Map<String, String> pathParameters = const <String, String>{},
@@ -73,7 +73,7 @@ abstract class Feature {
   }
 
   /// route replace name
-  /// AppFeature.get<HomeFeature>().replace()
+  /// `AppFeature.get<HomeFeature>().replace()`
   Future<T?> replace<T>({
     String? name,
     Map<String, String> pathParameters = const <String, String>{},
@@ -89,7 +89,7 @@ abstract class Feature {
   }
 
   /// route pushReplace name
-  /// AppFeature.get<HomeFeature>().replace()
+  /// `AppFeature.get<HomeFeature>().pushReplacement()`
   Future<T?> pushReplacement<T extends Object?>({
     String? name,
     Map<String, String> pathParameters = const <String, String>{},
@@ -105,7 +105,7 @@ abstract class Feature {
   }
 
   /// route go name
-  /// AppFeature.get<HomeFeature>().go()
+  /// `AppFeature.get<HomeFeature>().go()`
   void go({
     String? name,
     Map<String, String> pathParameters = const <String, String>{},

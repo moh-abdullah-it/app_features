@@ -32,7 +32,7 @@ abstract class MasterLayout {
   /// whether shell route navigation changes notify root GoRouter observers
   bool get notifyRootObserver => true;
 
-  modifyListener(GoRouterState state, StatefulNavigationShell navigationShell) {
+  void modifyListener(GoRouterState state, StatefulNavigationShell navigationShell) {
     Feature feature = features[navigationShell.currentIndex];
     if (_currentName != null && _currentName != feature.name) {
       feature.emit(feature.name, null, null, state);
